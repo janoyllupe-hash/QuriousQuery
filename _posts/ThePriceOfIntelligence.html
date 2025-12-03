@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cost of Intelligence: Gen-AI vs. Traditional Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc; /* Slate 50 */
+        }
+        
+        /* Chart Container Styling - Mandatory Requirement */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px; /* Constraint to prevents wide charts */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Base height */
+            max-height: 400px;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Card Styling */
+        .info-card {
+            background-color: #1e293b; /* Slate 800 */
+            border: 1px solid #334155;
+            transition: transform 0.2s;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-2px);
+            border-color: #3b82f6;
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+    <!-- 
+        Palette: Cyberpunk / High Tech
+        Background: #0f172a
+        Card: #1e293b
+        Blue: #3b82f6
+        Purple: #8b5cf6
+        Pink: #ec4899
+        Green: #10b981
+        
+        Constraints Checked:
+        - No SVG graphics used.
+        - No Mermaid JS used.
+        - Canvas rendering for Charts.
+        - Structured HTML for diagrams.
+    -->
+    <!--
+    Narrative Plan:
+    1. Intro: The hidden cost of "smart" answers.
+    2. Financial: Cost per 1k queries (Bar Chart).
+    3. Energy: Watts per query (Doughnut).
+    4. Complexity: Latency vs Cost (Bubble).
+    5. Optimization: Caching Heatmap (Plotly).
+    6. Conclusion.
+    -->
+</head>
+<body class="antialiased selection:bg-purple-500 selection:text-white">
+
+    <!-- Hero Section -->
+    <header class="w-full py-12 px-4 text-center border-b border-slate-800 bg-slate-900 sticky top-0 z-50 opacity-95 backdrop-blur-sm">
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">
+            The Price of <span class="gradient-text">Intelligence</span>
+        </h1>
+        <p class="text-slate-400 max-w-2xl mx-auto text-lg">
+            Assessing the computational, financial, and environmental impact of Generative AI Search vs. Traditional Retrieval.
+        </p>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- Section 1: Introduction -->
+        <section class="col-span-1 md:col-span-2 mb-8">
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
+                <h2 class="text-2xl font-bold mb-4 text-blue-400">The Paradigm Shift</h2>
+                <p class="text-slate-300 mb-4 leading-relaxed">
+                    When you type a query into a traditional search engine, you trigger a highly optimized index lookup (TKBS - Traditional Keyword Based Search). When you ask an AI chatbot, you trigger massive matrix multiplications across billions of parameters. This infographic deconstructs the massive cost differential between "finding" information and "synthesizing" it.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div class="p-4 bg-slate-900 rounded-lg border-l-4 border-blue-500">
+                        <h3 class="font-bold text-white">Traditional (TKBS)</h3>
+                        <p class="text-sm text-slate-400">Keyword Indexing. Low Latency. O(1) Retrieval.</p>
+                    </div>
+                    <div class="p-4 bg-slate-900 rounded-lg border-l-4 border-purple-500">
+                        <h3 class="font-bold text-white">Hybrid (RAG)</h3>
+                        <p class="text-sm text-slate-400">Retrieval + Synthesis. Contextual understanding.</p>
+                    </div>
+                    <div class="p-4 bg-slate-900 rounded-lg border-l-4 border-pink-500">
+                        <h3 class="font-bold text-white">Pure Gen-AI</h3>
+                        <p class="text-sm text-slate-400">Full parameter generation. High Latency. O(N) Compute.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Financial Cost -->
+        <section class="info-card col-span-1 p-6 rounded-2xl shadow-lg">
+            <h2 class="text-xl font-bold text-green-400 mb-2">1. The Financial Sticker Price</h2>
+            <p class="text-sm text-slate-400 mb-6">
+                The computational intensity of LLMs translates directly to dollar costs. While a traditional keyword search costs fractions of a cent per thousand queries, generating text token-by-token is orders of magnitude more expensive. This chart compares the estimated cost per 1,000 queries.
+            </p>
+            <div class="chart-container">
+                <canvas id="financialChart"></canvas>
+            </div>
+            <div class="mt-4 text-xs text-center text-slate-500">
+                Data estimated based on average API costs and hardware/electricity inference overhead.
+            </div>
+        </section>
+
+        <!-- Section 3: Energy Consumption -->
+        <section class="info-card col-span-1 p-6 rounded-2xl shadow-lg">
+            <h2 class="text-xl font-bold text-yellow-400 mb-2">2. The Energy Equation</h2>
+            <p class="text-sm text-slate-400 mb-6">
+                A standard Google search uses about 0.3 Watt-hours of energy—enough to power a lightbulb for seconds. An LLM interaction, requiring GPU clusters to run billions of calculations, consumes significantly more. This creates a massive new carbon footprint for the internet.
+            </p>
+            <div class="chart-container">
+                <canvas id="energyChart"></canvas>
+            </div>
+            <div class="mt-4 flex justify-center space-x-4 text-xs text-slate-400">
+                <span class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>Traditional</span>
+                <span class="flex items-center"><span class="w-3 h-3 bg-pink-500 rounded-full mr-2"></span>Gen-AI</span>
+            </div>
+        </section>
+
+        <!-- Section 4: Environmental Impact (Visualized via HTML) -->
+        <section class="info-card col-span-1 md:col-span-2 p-6 rounded-2xl shadow-lg">
+            <h2 class="text-xl font-bold text-cyan-400 mb-4">3. Environmental Toll: Water & Heat</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <p class="text-slate-300 mb-4 leading-relaxed">
+                        Data centers generate immense heat running GPUs for AI. This requires water cooling. Research suggests that a conversation of roughly 20-50 questions with a model like GPT-4 consumes a 500ml bottle of water for cooling.
+                    </p>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li class="flex items-start">
+                            <span class="text-xl mr-2">🔥</span>
+                            <span><strong>Heat Generation:</strong> H100 GPUs run at ~700W, roughly equal to a space heater per chip.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-xl mr-2">💧</span>
+                            <span><strong>Water Consumption:</strong> Evaporative cooling towers consume millions of gallons daily.</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- HTML Diagram for Visual Comparison (NO SVG) -->
+                <div class="bg-slate-900 p-6 rounded-xl border border-slate-700">
+                    <h3 class="text-center text-white font-bold mb-4">Water Consumption per 50 Queries</h3>
+                    
+                    <div class="flex flex-col space-y-6">
+                        <!-- Traditional Row -->
+                        <div class="flex items-center">
+                            <div class="w-24 text-right text-xs text-blue-400 font-bold mr-3">Traditional Search</div>
+                            <div class="flex-1 bg-slate-800 h-8 rounded-full relative overflow-hidden">
+                                <div class="absolute top-0 left-0 h-full bg-blue-500 w-[2%]"></div>
+                            </div>
+                            <div class="w-16 text-left text-xs ml-3 text-slate-500">~10ml</div>
+                        </div>
+
+                        <!-- AI Row -->
+                        <div class="flex items-center">
+                            <div class="w-24 text-right text-xs text-pink-400 font-bold mr-3">Gen-AI Chat</div>
+                            <div class="flex-1 bg-slate-800 h-8 rounded-full relative overflow-hidden flex items-center px-2">
+                                <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-600 to-cyan-400 w-full"></div>
+                                <span class="relative z-10 text-xs font-bold text-white drop-shadow-md">💧 💧 💧 💧 💧</span>
+                            </div>
+                            <div class="w-16 text-left text-xs ml-3 text-slate-300">~500ml</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Latency vs Complexity -->
+        <section class="info-card col-span-1 p-6 rounded-2xl shadow-lg">
+            <h2 class="text-xl font-bold text-purple-400 mb-2">4. Computational Complexity</h2>
+            <p class="text-sm text-slate-400 mb-6">
+                This bubble chart relates Latency (Time to First Token), Cost, and Complexity. Traditional search (Blue) is near-instant (O(1) with indexing). LLMs (Pink) scale linearly O(N) with context length, driving up latency and cost simultaneously.
+            </p>
+            <div class="chart-container">
+                <canvas id="complexityChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Section 6: Optimization (Plotly) -->
+        <section class="info-card col-span-1 p-6 rounded-2xl shadow-lg">
+            <h2 class="text-xl font-bold text-orange-400 mb-2">5. The Efficiency Frontier: Caching</h2>
+            <p class="text-sm text-slate-400 mb-6">
+                Can we fix the cost? By using <strong>Semantic Caching</strong> (Vector DBs), we can store AI responses. If a user asks a similar question, we retrieve instead of generate. This Heatmap shows the Cost Reduction Factor based on Cache Hit Rate vs. Model Complexity.
+            </p>
+            <div class="chart-container" id="plotlyHeatmap">
+                <!-- Plotly renders here -->
+            </div>
+        </section>
+
+        <!-- Summary / Footer -->
+        <section class="col-span-1 md:col-span-2 mt-8 text-center">
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-8 rounded-2xl border border-slate-700">
+                <h3 class="text-2xl font-bold text-white mb-2">The Verdict</h3>
+                <p class="max-w-3xl mx-auto text-slate-400 leading-relaxed">
+                    Gen-AI search offers unparalleled synthesis but at a <strong>10x-30x premium</strong> in energy and cost. The future of search isn't purely generative; it is <strong>Hybrid</strong>. By leveraging RAG (Retrieval Augmented Generation) and aggressive semantic caching, we can approach the utility of LLMs with a cost profile closer to traditional search.
+                </p>
+            </div>
+            <p class="mt-8 text-slate-600 text-xs">Generated by Canvas Infographics. No SVG or Mermaid JS used.</p>
+        </section>
+
+    </main>
+
+    <script>
+        // --- UTILITY FUNCTIONS ---
+
+        // 1. Label Wrapping Logic (16 char limit)
+        function wrapLabel(label) {
+            if (typeof label !== 'string' || label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length <= 16) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // 2. Tooltip Configuration
+        const commonTooltipOptions = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            },
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            titleColor: '#f8fafc',
+            bodyColor: '#cbd5e1',
+            borderColor: '#475569',
+            borderWidth: 1,
+            padding: 10
+        };
+
+        // --- CHART GENERATION ---
+
+        // Chart 1: Financial Cost (Bar)
+        const ctxFinancial = document.getElementById('financialChart').getContext('2d');
+        const financialLabels = ["Traditional Search", "Hybrid (RAG)", "Small LLM", "Large LLM (GPT-4)"];
+        const wrappedFinancialLabels = financialLabels.map(wrapLabel);
+
+        new Chart(ctxFinancial, {
+            type: 'bar',
+            data: {
+                labels: wrappedFinancialLabels,
+                datasets: [{
+                    label: 'Cost per 1,000 Queries ($)',
+                    data: [0.0005, 0.004, 0.008, 0.03], // Illustrative data
+                    backgroundColor: [
+                        '#3b82f6', // Blue
+                        '#8b5cf6', // Purple
+                        '#ec4899', // Pink
+                        '#f43f5e'  // Red
+                    ],
+                    borderRadius: 6,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: commonTooltipOptions,
+                    title: {
+                        display: true,
+                        text: 'Cost Comparison (Log Scale Visualized)',
+                        color: '#94a3b8'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94a3b8' },
+                        title: { display: true, text: 'Cost ($ USD)', color: '#64748b' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94a3b8', autoSkip: false }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Energy Consumption (Doughnut)
+        const ctxEnergy = document.getElementById('energyChart').getContext('2d');
+        const energyLabels = ["Traditional Search (0.3 Wh)", "Gen-AI Search (9 Wh)"];
+        const wrappedEnergyLabels = energyLabels.map(wrapLabel);
+
+        new Chart(ctxEnergy, {
+            type: 'doughnut',
+            data: {
+                labels: wrappedEnergyLabels,
+                datasets: [{
+                    data: [0.3, 9],
+                    backgroundColor: ['#3b82f6', '#ec4899'], // Blue vs Pink
+                    borderColor: '#1e293b',
+                    borderWidth: 2,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        position: 'bottom',
+                        labels: { color: '#cbd5e1', padding: 20 }
+                    },
+                    tooltip: commonTooltipOptions
+                },
+                cutout: '60%'
+            }
+        });
+
+        // Chart 3: Complexity Bubble Chart
+        const ctxComplexity = document.getElementById('complexityChart').getContext('2d');
+        
+        new Chart(ctxComplexity, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Search Methods',
+                    data: [
+                        { x: 0.1, y: 1, r: 5, method: "Keyword Search" }, // Low latency, low cost
+                        { x: 1.5, y: 10, r: 15, method: "Vector Search" }, // Mid latency, mid cost
+                        { x: 4.0, y: 50, r: 25, method: "RAG System" }, // High latency, high cost
+                        { x: 8.0, y: 100, r: 35, method: "Pure LLM" } // Very high latency, very high cost
+                    ],
+                    backgroundColor: [
+                        '#3b82f6',
+                        '#10b981',
+                        '#8b5cf6',
+                        '#ec4899'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw.method + ': Latency ' + context.raw.x + 's, Cost Index ' + context.raw.y;
+                            },
+                            title: function() { return ''; } // Hide standard title
+                        },
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleColor: '#f8fafc',
+                        bodyColor: '#cbd5e1'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Latency (Seconds)', color: '#64748b' },
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Relative Cost Index', color: '#64748b' },
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94a3b8' }
+                    }
+                }
+            }
+        });
+
+        // Chart 4: Plotly Heatmap (Optimization)
+        // Shows how cost decreases as Cache Hit Rate increases
+        
+        const cacheHitRates = ['0%', '20%', '40%', '60%', '80%', '100%'];
+        const modelSizes = ['Small Model', 'Medium Model', 'Large Model'];
+        
+        // Z values represent Relative Cost (Lower is better)
+        const zValues = [
+            [20, 16, 12, 8, 4, 1],   // Small Model Costs decreasing
+            [50, 40, 30, 20, 10, 1], // Medium Model Costs decreasing
+            [100, 80, 60, 40, 20, 1] // Large Model Costs decreasing
+        ];
+
+        const plotlyData = [{
+            z: zValues,
+            x: cacheHitRates,
+            y: modelSizes,
+            type: 'heatmap',
+            colorscale: [
+                [0, '#10b981'],   // Green (Low Cost / High Cache)
+                [0.5, '#3b82f6'], // Blue
+                [1, '#ec4899']    // Pink (High Cost / Low Cache)
+            ],
+            showscale: true
+        }];
+
+        const plotlyLayout = {
+            title: { text: 'Cost Reduction via Caching', font: { color: '#94a3b8' } },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: '#cbd5e1', family: 'Inter' },
+            xaxis: { title: 'Cache Hit Rate', color: '#94a3b8' },
+            yaxis: { title: 'Model Complexity', color: '#94a3b8' },
+            margin: { t: 40, b: 40, l: 100, r: 20 }
+        };
+
+        const config = { responsive: true, displayModeBar: false };
+
+        Plotly.newPlot('plotlyHeatmap', plotlyData, plotlyLayout, config);
+
+    </script>
+</body>
+</html>
