@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Privacy-Progress Paradox</title>
+    <title>The Privacy-Progress Paradox: Infographic</title>
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+          }
+        };
+    </script>
+
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -145,6 +157,12 @@
             margin-top: 0;
             font-size: 1.1em;
         }
+        
+        .proof-step .formula {
+            padding: 5px 0;
+            margin: 0;
+            text-align: center;
+        }
 
         /* 3. Computational Trap */
         .computational-trap {
@@ -181,6 +199,25 @@
 
         .free-will-panel p {
             font-size: 1.1em;
+        }
+        
+        /* 5. Sources */
+        .sources-list {
+            list-style: none;
+            padding: 0;
+            font-size: 0.9em;
+        }
+        
+        .sources-list li {
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+        
+        .source-tag {
+            font-weight: bold;
+            color: #ff7f50;
+            margin-right: 5px;
         }
 
         /* Responsive adjustments */
@@ -236,35 +273,47 @@
             </div>
             <div class="proof-step">
                 <h3>The Calculation</h3>
-                <p>For innovation (Cost $C > 0$) to occur, the Innovator's return must be positive: $V_{monopoly}(\tau) > C$</p>
+                <p>For innovation (Cost $C > 0$) to occur, the Innovator's return must be positive:</p>
+                <p class="formula">$$V_{\text{monopoly}}(\tau) > C$$</p>
             </div>
             <div class="proof-step">
                 <h3>The Result</h3>
-                <p>In total transparency ($\tau=0$), $V_{monopoly}(\tau) \to 0$. Since $0 > C$ is false, **innovation stops.**</p>
+                <p>In total transparency ($\tau=0$), $V_{\text{monopoly}}(\tau) \to 0$. Since $0 > C$ is false, **innovation stops.**</p>
+                <p>The system collapses into a zero-innovation equilibrium.</p>
             </div>
         </div>
 
         <div class="section-title"><span class="icon">🧠</span> 3. The Failure of Laplace's Demon</div>
         <div class="computational-trap">
             <div class="trap-proposition">
-                <span class="step">P1: The Blind Spot</span>
-                <p>A predictor must use **Lossy Compression** to be faster than reality. It ignores micro-details (private thoughts) to model macro-trends.</p>
+                <span class="step">P1: The Blind Spot (Knightian Uncertainty)</span>
+                <p>A predictor must use **Lossy Compression** to be faster than reality. It must ignore micro-details (private thoughts) to model macro-trends, blinding it to **Ontological Uncertainty**.</p>
             </div>
             <div class="trap-proposition">
-                <span class="step">P2: The Fragility</span>
-                <p>Innovation is a **Micro-to-Macro Phase Transition**. The server, by ignoring outliers, loses the exact variance needed to adapt to Black Swans.</p>
+                <span class="step">P2: The Fragility (Ashby's Law of Requisite Variety)</span>
+                <p>Innovation is a **Micro-to-Macro Phase Transition**. The server, by suppressing variance to achieve efficiency, lacks the necessary internal **variety** to match external change.</p>
             </div>
             <div class="trap-proposition">
-                <span class="step">P3: The Irreducibility</span>
-                <p>Because innovation is an **Irreducible Computation**, the prediction must be run by the system itself. The Central Server cannot compute faster than its own reality.</p>
+                <span class="step">P3: The Irreducibility (Wolfram's Principle of Computational Equivalence)</span>
+                <p>Because innovation is an **Irreducible Computation**, the prediction cannot run faster than the reality it simulates. The Server cannot compute the future faster than the civilization lives it.</p>
             </div>
         </div>
 
-        <div class="section-title"><span class="icon">✨</span> 4. Free Will as a Byproduct</div>
+        <div class="section-title"><span class="icon">✨</span> 4. Free Will as a Functional Byproduct</div>
         <div class="free-will-panel">
-            <p>The economic need for privacy creates **Computational Irreducibility** (hidden state).</p>
-            <p>To an outside observer, this hidden state makes the agent's actions **Unpredictable** (not a mirror of the environment), granting it **Functional Agency**—the foundation of free will.</p>
+            <p>The economic need for privacy creates **Computational Irreducibility** (a hidden state, or $\text{Hidden State} \neq \text{Public State}$).</p>
+            <p>To an outside observer, this hidden state makes the agent's actions **Unpredictable** (not merely a reflection of input), granting it **Functional Agency**—the necessary foundation for free will.</p>
         </div>
+        
+        <div class="section-title"><span class="icon">📜</span> 5. Sources and Theoretical Assertions</div>
+        <ul class="sources-list">
+            <li><span class="source-tag">[Economic Proof]</span> **Grossman, S. J., & Stiglitz, J. E. (1980):** *On the Impossibility of Informationally Efficient Markets.* Proves that if information is free/transparent, the incentive to gather it (innovation) collapses.</li>
+            <li><span class="source-tag">[Economic Proof]</span> **Schumpeter, J. A. (1942):** *Capitalism, Socialism and Democracy.* Asserted that temporary monopoly (privacy of execution) is essential for innovation ("Creative Destruction").</li>
+            <li><span class="source-tag">[P1: Uncertainty]</span> **Knight, F. H. (1921):** *Risk, Uncertainty and Profit.* Formal distinction between measurable risk (known distribution) and true uncertainty (unknown distribution), which blinds centralized predictors.</li>
+            <li><span class="source-tag">[P2: Variety]</span> **Ashby, W. R. (1956):** *Introduction to Cybernetics.* Formalizes the **Law of Requisite Variety**—a controller must have as much variety (variance) as the system it controls to maintain control/adaptability.</li>
+            <li><span class="source-tag">[P3: Irreducibility]</span> **Wolfram, S. (2002):** *A New Kind of Science.* The principle that complex systems (like a civilization or the universe) are often computationally irreducible.</li>
+            <li><span class="source-tag">[Free Will]</span> **Mill, J. S. (1859):** *On Liberty.* Argued for the utilitarian necessity of protecting minority/dissenting opinions for truth-seeking (i.e., preserving variance).</li>
+        </ul>
 
     </div>
 
